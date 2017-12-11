@@ -54,9 +54,23 @@ public class StringCalculatorTest {
     assertThat(result).isEqualTo(6);
   }
 
+  @Test
+  public void shouldAddStringWithCustomDelimeter(){
+    int result = add("//;\n1;2");
+
+    assertThat(result).isEqualTo(3);
+  }
+
   private int add(String numbers) {
     if (numbers.isEmpty()) {
       return 0;
+    }
+    if (numbers.startsWith("//")) {
+      String delimeter = (String) numbers.subSequence(2, numbers.indexOf("\n"));
+      numbers = numbers.substring(numbers.indexOf("\n")+1);
+      return Stream.of(numbers.split(delimeter))
+          .mapToInt(i -> Integer.valueOf(i))
+          .sum();
     }
     return Stream.of(numbers.split(",|\n"))
         .mapToInt(i -> Integer.valueOf(i))
