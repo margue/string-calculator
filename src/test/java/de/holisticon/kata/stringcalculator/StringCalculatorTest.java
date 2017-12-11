@@ -14,7 +14,7 @@ public class StringCalculatorTest {
   }
 
   private int add(String numbers) {
-    throw new UnsupportedOperationException("not yet implemented");
+    return 0;
   }
 
 }
