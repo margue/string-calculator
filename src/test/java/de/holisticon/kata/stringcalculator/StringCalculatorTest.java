@@ -47,11 +47,18 @@ public class StringCalculatorTest {
     assertThat(result).isEqualTo(11);
   }
 
+  @Test
+  public void shouldAddStringWithLinebreak() {
+    int result = add("1\n2,3");
+
+    assertThat(result).isEqualTo(6);
+  }
+
   private int add(String numbers) {
     if (numbers.isEmpty()) {
       return 0;
     }
-    return Stream.of(numbers.split(","))
+    return Stream.of(numbers.split(",|\n"))
         .mapToInt(i -> Integer.valueOf(i))
         .sum();
   }
