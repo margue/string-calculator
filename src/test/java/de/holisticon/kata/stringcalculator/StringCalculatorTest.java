@@ -51,13 +51,9 @@ public class StringCalculatorTest {
     if (numbers.isEmpty()) {
       return 0;
     }
-    if (numbers.contains(",")) {
-      return Stream.of(numbers.split(","))
-          .mapToInt(i -> Integer.valueOf(i))
-          .sum();
-    } else {
-      return Integer.valueOf(numbers);
-    }
+    return Stream.of(numbers.split(","))
+        .mapToInt(i -> Integer.valueOf(i))
+        .sum();
   }
 
 }
