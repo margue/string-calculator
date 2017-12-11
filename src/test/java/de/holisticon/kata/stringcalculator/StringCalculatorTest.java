@@ -31,9 +31,20 @@ public class StringCalculatorTest {
     assertThat(result).isEqualTo(5);
   }
 
+  @Test
+  public void shouldAddStringWithTwoNumbers(){
+
+    int result = add("2,5");
+
+    assertThat(result).isEqualTo(7);
+  }
+
   private int add(String numbers) {
     if(numbers.isEmpty()) {
       return 0;
+    } if(numbers.contains(",")) {
+      String[] split = numbers.split(",");
+      return Integer.valueOf(split[0]) + Integer.valueOf(split[1]);
     } else {
       return Integer.valueOf(numbers);
     }
