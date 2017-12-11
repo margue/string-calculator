@@ -65,14 +65,12 @@ public class StringCalculatorTest {
     if (numbers.isEmpty()) {
       return 0;
     }
+    String delimeter = ",|\n";
     if (numbers.startsWith("//")) {
-      String delimeter = (String) numbers.subSequence(2, numbers.indexOf("\n"));
+      delimeter = (String) numbers.subSequence(2, numbers.indexOf("\n"));
       numbers = numbers.substring(numbers.indexOf("\n")+1);
-      return Stream.of(numbers.split(delimeter))
-          .mapToInt(i -> Integer.valueOf(i))
-          .sum();
     }
-    return Stream.of(numbers.split(",|\n"))
+    return Stream.of(numbers.split(delimeter))
         .mapToInt(i -> Integer.valueOf(i))
         .sum();
   }
