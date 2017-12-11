@@ -24,7 +24,11 @@ public class StringCalculatorTest {
   }
 
   private int add(String numbers) {
-    return 0;
+    if(numbers.isEmpty()) {
+      return 0;
+    } else {
+      return 1;
+    }
   }
 
 }
