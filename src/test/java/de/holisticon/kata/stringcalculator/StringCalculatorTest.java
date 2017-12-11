@@ -2,13 +2,14 @@ package de.holisticon.kata.stringcalculator;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class StringCalculatorTest {
 
   @Test
-  public void shouldAddEmptyString(){
+  public void shouldAddEmptyString() {
 
     int result = add("");
 
@@ -16,7 +17,7 @@ public class StringCalculatorTest {
   }
 
   @Test
-  public void shouldAddSingleNumberString_1(){
+  public void shouldAddSingleNumberString_1() {
 
     int result = add("1");
 
@@ -24,7 +25,7 @@ public class StringCalculatorTest {
   }
 
   @Test
-  public void shouldAddSingleNumberString_5(){
+  public void shouldAddSingleNumberString_5() {
 
     int result = add("5");
 
@@ -32,7 +33,7 @@ public class StringCalculatorTest {
   }
 
   @Test
-  public void shouldAddStringWithTwoNumbers(){
+  public void shouldAddStringWithTwoNumbers() {
 
     int result = add("2,5");
 
@@ -40,22 +41,20 @@ public class StringCalculatorTest {
   }
 
   @Test
-  public void shouldAddStringWithThreeNumbers(){
+  public void shouldAddStringWithThreeNumbers() {
     int result = add("3,1,7");
 
     assertThat(result).isEqualTo(11);
   }
 
   private int add(String numbers) {
-    if(numbers.isEmpty()) {
+    if (numbers.isEmpty()) {
       return 0;
-    } if(numbers.contains(",")) {
-      String[] split = numbers.split(",");
-      int sum = 0;
-      for (int i = 0; i < split.length; i++) {
-        sum += Integer.valueOf(split[i]);
-      }
-      return sum;
+    }
+    if (numbers.contains(",")) {
+      return Stream.of(numbers.split(","))
+          .mapToInt(i -> Integer.valueOf(i))
+          .sum();
     } else {
       return Integer.valueOf(numbers);
     }
