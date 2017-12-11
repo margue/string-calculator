@@ -61,6 +61,13 @@ public class StringCalculatorTest {
     assertThat(result).isEqualTo(3);
   }
 
+  @Test
+  public void shouldThrowExceptionForNegativeNumbers(){
+    Throwable thrown = catchThrowable(() -> {add("-1;2");} );
+
+    assertThat(thrown).hasMessage("negatives not allowed: -1");
+  }
+
   private int add(String numbers) {
     if (numbers.isEmpty()) {
       return 0;
