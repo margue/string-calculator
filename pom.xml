@@ -12,6 +12,8 @@
         <junit.version>4.12</junit.version>
         <assertj-core.version>3.8.0</assertj-core.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
