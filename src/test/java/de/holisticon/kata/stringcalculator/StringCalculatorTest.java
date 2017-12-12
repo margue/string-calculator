@@ -82,16 +82,19 @@ public class StringCalculatorTest {
       delimeter = (String) numbers.subSequence(2, numbers.indexOf("\n"));
       numbers = numbers.substring(numbers.indexOf("\n") + 1);
     }
+    assertNoNegatives(numbers, delimeter);
+    return Stream.of(numbers.split(delimeter))
+          .mapToInt(i -> Integer.valueOf(i))
+          .sum();
+  }
+
+  private void assertNoNegatives(String numbers, String delimeter) {
     List<Integer> negatives = Stream.of(numbers.split(delimeter))
         .mapToInt(i -> Integer.valueOf(i))
         .filter(i -> i < 0)
         .boxed()
         .collect(Collectors.toList());
-    if (negatives.isEmpty()) {
-      return Stream.of(numbers.split(delimeter))
-          .mapToInt(i -> Integer.valueOf(i))
-          .sum();
-    } else {
+    if (!negatives.isEmpty()) {
       throw new IllegalArgumentException(String.format("negatives not allowed: %s", negatives));
     }
   }
