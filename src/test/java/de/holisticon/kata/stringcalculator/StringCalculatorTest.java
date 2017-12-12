@@ -2,6 +2,9 @@ package de.holisticon.kata.stringcalculator;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -55,17 +58,19 @@ public class StringCalculatorTest {
   }
 
   @Test
-  public void shouldAddStringWithCustomDelimeter(){
+  public void shouldAddStringWithCustomDelimeter() {
     int result = add("//;\n1;2");
 
     assertThat(result).isEqualTo(3);
   }
 
   @Test
-  public void shouldThrowExceptionForNegativeNumbers(){
-    Throwable thrown = catchThrowable(() -> {add("-1;2");} );
+  public void shouldThrowExceptionForNegativeNumbers() {
+    Throwable thrown = catchThrowable(() -> {
+      add("-1,-2,3");
+    });
 
-    assertThat(thrown).hasMessage("negatives not allowed: -1");
+    assertThat(thrown).hasMessage("negatives not allowed: [-1, -2]");
   }
 
   private int add(String numbers) {
@@ -75,11 +80,20 @@ public class StringCalculatorTest {
     String delimeter = ",|\n";
     if (numbers.startsWith("//")) {
       delimeter = (String) numbers.subSequence(2, numbers.indexOf("\n"));
-      numbers = numbers.substring(numbers.indexOf("\n")+1);
+      numbers = numbers.substring(numbers.indexOf("\n") + 1);
     }
-    return Stream.of(numbers.split(delimeter))
+    List<Integer> negatives = Stream.of(numbers.split(delimeter))
         .mapToInt(i -> Integer.valueOf(i))
-        .sum();
+        .filter(i -> i < 0)
+        .boxed()
+        .collect(Collectors.toList());
+    if (negatives.isEmpty()) {
+      return Stream.of(numbers.split(delimeter))
+          .mapToInt(i -> Integer.valueOf(i))
+          .sum();
+    } else {
+      throw new IllegalArgumentException(String.format("negatives not allowed: %s", negatives));
+    }
   }
 
 }
